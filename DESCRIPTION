@@ -1,0 +1,21 @@
+Package: RnaSeqTutorial01
+Type: Package
+Title: Introduction to Data Science
+Version: 1.0.0
+Author: Nicolas Delhomme [aut, cre]
+Maintainer: Nicolas Delhomme <nicolas.delhomme@umu.se>
+Description: A package containing the first tutorial in a series that go from the Exploratory Data Analysis
+    to the Differential Gene Expression, Differential Transcript Usage and Gene Set Enrichment Analysis
+License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 4.4.0),
+    gplots (>= 3.1.3),
+    here (>= 1.0.1),
+    learnr (>= 0.11.5),
+    palmerpenguins (>= 0.1.1),
+    tidyverse (>= 2.0.0)
+Suggests: BiocStyle, knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2

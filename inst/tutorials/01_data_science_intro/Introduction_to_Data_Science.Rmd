@@ -1,0 +1,519 @@
+--- 
+title: "Introduction to data science"
+author: "Nicolas Delhomme"
+tutorial:
+  id: "org.bnbio.tutorials.01_data_science_intro"
+  version: 0.5.1
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(palmerpenguins)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(
+  exercise.reveal_solution=TRUE
+)
+```
+
+## This is a `learnr` tutorial
+
+If you are already familiar with such tutorials, feel free to jump directly to the `Introduction` in the menu on the left.
+
+### First time
+This is a `learnr` interactive tutorial.
+
+1. The tutorial is meant to guide your learning
+2. It consists of a mix of instructions, exercises and quizzes
+3. Exercises are displayed as grey boxes, where you write `R` code to complete the task
+4. Once ready, you can click on `Run Code`
+5. You can at any time `Start Over` by using the corresponding button, whether for an exercise or the overall tutorial (left menu)
+6. Some exercises might have a `Hint` button, to provide well, you'll guess it
+7. Some exercises might have a `Solution` button
+8. The tutorial will reveal as you progress
+9. You can skip sections for which you do not find the solution, just click on `Continue` at the bottom of the section you are at.
+10. Your progress is saved. You can go through the tutorial at your own pace and convenience
+
+That is pretty much all there is about them, let us go through a few examples to demonstrate.
+
+### Examples
+
+*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+
+Write the R code required to add two plus two:
+
+```{r two-plus-two, exercise=TRUE}
+
+```
+
+### Exercise with Code
+
+*Here's an exercise with some pre-populated code.*
+
+Now write a function that adds any two numbers and then call it:
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add <- function() {
+  
+}
+```
+
+## Introduction
+
+In this tutorial, we will inspire ourselves from **Hadley Wickam**'s book: [R for Data Science](https://r4ds.had.co.nz). 
+
+This tutorial is meant to be completed after you have been through [Chapter 2](https://r4ds.had.co.nz/explore-intro.html) and [Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) of the book.
+
+In this tutorial, we will practice what we learned to do some exploratory analysis of the [palmer penguins](https://allisonhorst.github.io/palmerpenguins/) dataset. I have setup the tutorial to mimic a common real-life situation where a data scientist (you!) would be given a dataset to analyse with only a minimal set of information about the data. Hence, we will proceed as follows:
+
+1. gather information about the data
+2. perform an exploratory data analysis to learn the data properties
+3. devise and test hypotheses
+
+### `tidyverse` _vs._ "base" `R`
+
+There are many possibilities to answer the exercises of this tutorial, and while the goal is to familiarise with `tidyverse`, using `base` R functions that achieve the same is fine. 
+
+You might end up reading a lot about "base" _vs._ `tidyverse`. There are some very opinionated data scientists around, but as with everything, I believe a middle ground is probably what we need to aim for. 
+
+IMO, both have their power and weaknesses, but what matter eventually is your mastery of it to be able to answer the questions you are asking.
+
+Nonetheless, if I were to start learning R today, I would do it reading [R for Data Science](https://r4ds.had.co.nz).
+
+### _Disclaimer:_ 
+I am no expert on that dataset (or penguins for that matter), I wrote the content of that tutorial simply for my own entertainment, but in a way that I would do any other data science projects. 
+
+### Enough intro!
+
+![Let us meet the penguins! Artwork by @allison_horst.](images/penguins.png){width=80%}
+
+Our first task is to find information about the dataset. Take the quizz below and if you are unsure about what the listed commands do, run them in the code block below.
+
+```{r help-quiz}
+quiz(caption="Getting information",
+  question("How do we figure out what is in that dataset?",
+    answer("?palmerpenguins", correct = TRUE),
+    answer("??palmerpenguins", correct = TRUE),
+    answer("help(\"palmerpenguins\")", correct = TRUE),
+    answer("none of the above"),
+    allow_retry=TRUE
+  )
+)
+```
+
+```{r help, exercise=TRUE}
+
+```
+
+### The `penguins*` datasets
+
+Now that we know that this dataset is about _Palmer Archipelago (Antarctica) Penguins_ let us load the data and take a look at it. Some exercise code block will be pre-filled to help you focus on the exercise, as in the example below, where the library and the data package is loaded. In this example, you can just run the code and answer the quizz, but in other cases, you will have to extend on the code
+
+```{r datasets, exercise=TRUE, exercise.eval=TRUE}
+library(palmerpenguins)
+data(package = 'palmerpenguins')
+```
+
+```{r datasets-quiz}
+quiz(caption = "Datasets",
+     question("How many dataset are present in the package?",
+              answer("1"),
+              answer("2", correct = TRUE),
+              answer("3"),
+              answer("I do not know", message = "check the information printed when loading the data package, there is `penguins` and `penguins_raw`"),
+              allow_retry=TRUE),
+     question("What is the difference between the two (tip: use the code block above to take a look)?",
+              answer("penguin_raw is the raw data, penguin has been tidied up", 
+                  correct=TRUE,
+                  message="`penguin_raw` is often the data or metadata you will get in the shape of a spreadsheet. These are human-made and not something that is computer friendly. One of the first task in such a case would be to tidy up that data, and `tidyverse` was meant for exactly that."),
+              answer("no difference, the same data in different format",
+                     message="Technically correct, but you will still prefer the tidied up version later on."),
+              answer("I do not know",
+                     message="penguin_raw is the raw data, penguin has been tidied up"),
+              allow_retry=TRUE)
+)
+```
+
+### The `penguin` dataset
+
+In a real situation, we would have by now converted `penguin_raw` into `penguin` and could start getting familiar with the data. In the present situation, we are going to do exactly that.
+
+First, figure out how many variables were recorded during the study and how many observations (write the code to find out)?
+
+```{r var-and-obs, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r var-and-obs-hint}
+?dim
+?nrow
+?ncol
+```
+
+```{r var-and-obs-solution}
+dim(penguins)
+```
+
+What were the variables recorded? Find the answer by looking at the data or the help.
+
+```{r rec-var, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r rec-var-hint}
+?help
+?head
+?colnames
+```
+
+```{r rec-var-solution}
+help("penguins")
+head(penguins)
+colnames(penguins)
+```
+
+This is a classical use-case. As a data-scientist, you will often get "that" spreadsheet from collaborators with very little more to get to know the data than the spreadsheet's column names. Here, the column names are self explanatory, so with the information we have gathered, we can start doing some exploratory data analysis to learn about the data properties. Hopefully, we will find something that tickles our (data scientist's) mind!
+
+## Exploratory Data Analysis
+
+Now that we know a little more about the data, let us look into it by performing an Exploratory Data Analysis (EDA).
+
+### Validation
+
+First of all, we will want to ensure that the information we got is accurate, and hence we will do some sanity checks (_i.e._ quality control (QC)). The first QC is to confirm that only three species were studied and that sampling occurred across three years. For that we can use "base" `R` or `tidyverse`. If you are familiar with the former try your hand at the later; `tidyverse` is pre-loaded anyway ;-) .
+
+```{r sanity, exercise=TRUE, exercise.eval=TRUE}
+library(tidyverse)
+```
+
+```{r sanity-hint}
+?`%>%`
+?distinct
+?select(species)
+```
+
+```{r sanity-solution}
+# tidyverse
+penguins %>% distinct(species)
+# base R
+unique(penguins$species)
+nlevels(penguins$species)
+# why not mix?
+penguins %>% select(species) %>% unique()
+```
+
+### First look
+Now that we have assessed that the data looks as expected (in practice, you make more test!), we can start getting familiar with it.
+
+First of all, let us find out how many individuals were recorded per species. This can be done textually using "base" R, or `tidyverse` or graphically with `ggplot2` (as in [Chapter 3](https://r4ds.had.co.nz/data-visualisation.html)). The latter, is in my opinion easier to learn and more immediately rewarding. A simple visualisation is often enough to assess a data property and is often easier to interpret. Hint: try `ggplot` if I was not obvious enough :-D .
+
+```{r obs, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r obs-hint}
+# change all uppercase text accordingly
+ggplot(DATA,aes(y=VAR,fill=VAR)) + geom_bar()
+```
+
+```{r obs-solution}
+ggplot(penguins,aes(y=species,fill=species)) + geom_bar()
+```
+
+The number of observations is different per species. That is an important information we should keep in mind, especially when doing statistical tests on the data.
+
+### Is that a bias?
+It would be interesting to check whether the number of observations was similar across years of sampling. Modify the following code to display the observations per species recorded per year. Check [Chapter 3.8](https://r4ds.had.co.nz/data-visualisation.html#position-adjustments) if you need inspiration.
+
+```{r obs-per-year, exercise=TRUE, exercise.eval=TRUE}
+ggplot(penguins,aes(y=species,fill=species)) + geom_bar()
+```
+
+```{r obs-per-year-hint}
+# change all uppercase text accordingly
+ggplot(DATA,aes(y=VAR1,fill=VAR2)) + geom_bar(position=POSITION)
+```
+
+```{r obs-per-year-solution}
+ggplot(penguins,aes(y=year,fill=species)) + geom_bar(position="dodge")
+```
+
+While there is variation between years, the number of observations is relatively constant per species across the years. It would be interesting to know if this is related to the size of the islands, the size of the colonies, the species themselves (and possibly the [level of conservation](https://education.nationalgeographic.org/resource/endangered-species)), _etc._ As you can realise, the EDA is already sparking some thoughts.
+
+Obviously, a lot more could be done here. As an example, before running the following code, think about what it will generate and also "what question" it is meant to answer.
+
+```{r islands-sex, exercise=TRUE, exercise.eval=FALSE}
+ggplot(penguins,aes(y=island,fill=species)) + geom_bar(position="dodge")
+
+ggplot(penguins %>% filter(species=="Adelie"),aes(y=island,fill=sex)) + geom_bar(position="dodge")
+```
+
+At that stage, we should make a note about the possible bias of the number of observation per species. Keeping it in mind, we can move on and start summarising the other observations.
+
+### Summary statistics
+We will start by calculating the mean and standard deviation of all numerical columns. To start, find out which columns are numeric.
+
+```{r num-obs, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r num-obs-hint-1}
+penguins
+?glimpse
+```
+
+```{r num-obs-solution}
+glimpse(penguins)
+```
+
+```{r num-obs-quiz}
+quiz(caption="Columns data type",
+  question("How many numerical columns are in that dataset?",
+    answer("3"),
+    answer("4"),
+    answer("5", correct = TRUE),
+    answer("6"),
+    allow_retry=TRUE
+  )
+)
+```
+
+Apart from the `year`, we have information on:
+
+1. the body mass
+2. the length of the flippers
+3. measures of the bill
+
+![Details of the bill's measures (artwork by @allison_horst)](images/culmen_depth.png){width=80%}
+
+#### Graphical
+Again, there are two ways (textual or visual) to summarise these. First, use ggplot to visualise these variables.
+
+```{r avg-obs, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r avg-obs-hint}
+?geom_boxplot()
+?geom_violin()
+```
+
+```{r avg-obs-solution}
+# You could visualise the individual variables one at a time.
+# Here is a more advanced solution that uses `pivot_longer` to
+# transform the data, adding a column `value` containing the measurements
+# of the four chosen columns and a column `name` detailing the column of 
+# origin of the value. Then, we use facets to display the four variables
+# in the same plot
+ggplot(penguins %>% pivot_longer(c(bill_length_mm,
+                                   bill_depth_mm,
+                                   flipper_length_mm,
+                                   body_mass_g)),
+       aes(x=name,y=value)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  facet_wrap(vars(species)) +
+  theme(axis.text.x=element_text(angle=45))
+```
+
+#### Textual 
+The same could also be achieved textually using `tidyverse`. We have so far focused on `ggplot`, but it will not always give you the details you may want.
+
+```{r avg-obs-tidy, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r avg-obs-tidy-hint-1}
+?group_by
+?summarize
+?across
+?where
+?is.numeric
+```
+
+```{r avg-obs-tidy-hint-2}
+# Selects numerical columns
+penguins %>% select(where(is.numeric))
+
+# Selects two columns and summarise across them - note it returns missing data (NA)!
+penguins %>% summarise(across(contains("bill"),sum))
+
+```
+
+```{r avg-obs-tidy-hint-3}
+# change all uppercase text accordingly
+penguins %>%
+  group_by(VAR) %>%
+  summarize(across(where(is.numeric), FUNCTION, na.rm = TRUE))
+```
+
+```{r avg-obs-tidy-solution, exercise.reveal_solution=TRUE}
+penguins %>%
+  group_by(species) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE))
+```
+
+## Drawing hypotheses
+
+![Hypothesis Generation by [XKCD](https://www.explainxkcd.com/wiki/index.php/2569:_Hypothesis_Generation)](images/hypothesis_generation.png){width=80%}
+
+The information we got about the dataset mentions difference in foraging. Furthermore, in the EDA __Is that a bias__ section, we observed that Adelie penguins can co-habit with either Chinstrap or Gentoo, but the latter never do. Now that we know a bit more about the data properties, we could devise and test a number of hypotheses that could explain such a difference, for example:
+
+1. Is there a correlation between body mass and flipper length? Does that differ by species? Is that affected by sex?
+```{r bm-vs-fl, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r bm-vs-fl-hint-1}
+?geom_point
+?geom_smooth
+?facet_wrap
+```
+
+```{r bm-vs-fl-hint-2}
+ggplot(penguins,aes(x=flipper_length_mm,
+                    y=body_mass_g,
+                    col=VAR1,
+                    group=VAR1,
+                    shape=VAR2)) +
+  geom_point() +
+  geom_smooth()
+```
+
+```{r bm-vs-fl-solution}
+ggplot(penguins,aes(x=flipper_length_mm,
+                    y=body_mass_g,
+                    col=species,
+                    group=species)) +
+  geom_point(aes(shape=sex),
+             size=2,alpha=0.7) +
+  geom_smooth(method="lm",se=FALSE)
+
+ggplot(penguins,aes(x=flipper_length_mm,
+                    y=body_mass_g,
+                    col=species,
+                    group=species)) +
+  geom_point(size=2,alpha=0.7) +
+  geom_smooth(method="lm",se=FALSE) +
+  facet_wrap(vars(sex))
+
+```
+
+There is indeed a clear correlation between both and a markedly sexual dimorphism.
+
+2. Is there a correlation between bill length and depth? Does that differ by species? Is that affected by sex?
+```{r bl-vs-bd, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r bl-vs-bd-solution}
+ggplot(penguins %>% filter(!is.na(sex)),
+       aes(x=bill_length_mm,
+           y=bill_depth_mm,
+           col=species,
+           group=species)) +
+  geom_point(size=2,alpha=0.7) +
+  geom_smooth(method="lm",se=FALSE) +
+  facet_wrap(vars(sex))
+```
+
+There is again a clear sexual dimorphism, common to all species. The correlation is not as striking as for the previous comparison, but the species clearly cluster separately
+
+3. Considering the ratio bill length / bill depth, is there a correlation with the body mass? Does that differ by species? Is that affected by sex?
+```{r bl-vs-bd-vs-bw, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r bl-vs-bd-vs-bw-hint}
+# to filter missing values
+penguins %>% filter(!is.na(sex))
+
+# interesting parameters for a boxplot
+geom_boxplot(fill=NA,varwidth=TRUE)
+```
+
+```{r bl-vs-bd-vs-bw-solution}
+ggplot(penguins %>% filter(!is.na(sex)),
+       aes(x=bill_length_mm/bill_depth_mm,
+                    y=body_mass_g,
+                    col=species,
+                    group=species)) +
+  geom_boxplot(fill=NA,varwidth=TRUE) +
+  geom_point(size=2,alpha=0.7) +
+  scale_x_continuous(name="bill length/depth") +
+  scale_y_continuous(name="body mass (g)") +
+  facet_wrap(vars(sex))
+```
+
+The sexual dimorphism remains, while the body mass only partially correlate to the bill ratio.
+
+4. Last, let us compare the ratios flipper length _vs._ body mass against the ratio bill length _vs._ bill depth. Is that affected by sex and or the island of origin?
+```{r fl-bw-vs-bl-bd, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r fl-bw-vs-bl-bd-hint}
+# labs can be used to rename axis labels
+labs(x="bill length/depth",
+       y="flipper length / body mass")
+# facets can be created from multiple variables
+facet_wrap(vars(sex,island))
+```
+
+```{r fl-bw-vs-bl-bd-solution}
+ggplot(penguins %>% filter(!is.na(sex)),
+       aes(x=bill_length_mm / bill_depth_mm,
+           y=flipper_length_mm / body_mass_g,
+           col=species,
+           group=species)) +
+  geom_boxplot(fill=NA,varwidth=TRUE) +
+  geom_point(size=2,alpha=0.7) +
+  labs(x="bill length/depth",
+       y="flipper length / body mass") +
+  facet_wrap(vars(sex,island))
+```
+
+While there is a clear separation for some species, it is rather unclear for others. The sexual dimorphism remains throughout.
+
+```{r nico-hypothesis}
+quiz(caption="So...",
+  question("...which hypothesis would you follow up?",
+           answer("#1 the body characteristics",
+                  message="Maybe for Gentoo, but there seem to be hardly a difference between Adelie and Chinstrap penguins."),
+           answer("#2 the bill characteristics",
+                  message="This seems a relevant one, as the combination of both does clearly separate the three species and could imply a foraging on different food, while the similar bill length range could point to competition between Chinstrap and Gentoo."
+                  ),
+           answer("#3 A combination of bill characteristics compounded by the body weight",
+                  message="Maybe for Gentoo, but there seem to be hardly a difference between Adelie and Chinstrap penguins."),
+           answer("#4 All body characteristics explain the species ability to co-habit (or not)",
+                  message="More complex than 2. Indeed, while it seems the main determinant is the bill, taking into account the sex and location reveals a possibly more complex pattern. On Biscoe, Gentoo an Adelie are clearly separated. On Dream, it seems that the sexual dimorphism in addition to the body characteristics creates an almost significant difference between the Adelie and Chinstrap penguins. Hence, overall Adelie's penguins may not have to compete with the other two species."),
+           answer("none",
+                  correct=TRUE,
+                  message="Sure, maybe it has nothing to do with foraging, or the food the Gentoo and Chinstrap forage on is only available on their respective islands, or... you name it."),
+           incorrect="Any other hypothesis you would consider?",
+           allow_retry=TRUE
+  )
+)
+```
+
+## Session Info
+It is good practice and highly recommended to always include the session info in your analyses. This way other can reproduce them with the exact same versions of the packages you used. Use the help to find out how to print the session info.
+
+```{r session-info, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r session-info-hint}
+sessionInfo()
+```
+
+## Copyright
+This material is provided under the following license:
+
+`CC-BY-NC-SA 4.0:` _Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License_
+
