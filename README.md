@@ -33,15 +33,9 @@ This is the first in a series of tutorials.
 
 To start the tutorial run:
 
-1. if you have installed the package
-  
-  ```{r tutorial}
-  learnr::run_tutorial("01_data_science_intro", package = "RnaSeqTutorial01")
-  ```
-
-2. if you have cloned the repository in a new project
-
-
+```{r tutorial}
+learnr::run_tutorial("01_data_science_intro", package = "RnaSeqTutorial01")
+```
 
 ## Accessing the code
 
