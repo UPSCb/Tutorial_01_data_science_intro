@@ -2,6 +2,22 @@
 
 Introduction to Data Science tutorial based on learnr
 
+## Installation
+
+In R do the following to install the dependencies
+
+```R
+if(!require("BiocManager")) {install.packages("BiocManager")}
+BiocManager::install(c("here","learnr","palmerpenguins","tidyverse"))
+```
+
+Then install the package using _e.g._ `pak`
+
+ ```R
+ if(!require("pak")){BiocManager::install("pak")}
+ pak::pkg_install("UPSCb/Tutorial_01_data_science_intro")
+ ```
+
 ## Getting started
 
 This is the first in a series of tutorials.
