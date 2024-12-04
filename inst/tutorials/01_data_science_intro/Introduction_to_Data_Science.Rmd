@@ -2,7 +2,7 @@
 title: "Introduction to data science"
 author: "Nicolas Delhomme"
 tutorial:
-  id: "org.bnbio.tutorials.01_data_science_intro"
+  id: "se.upsc.tutorials.01_data_science_intro"
   version: 1.0.0
 output:
   learnr::tutorial:

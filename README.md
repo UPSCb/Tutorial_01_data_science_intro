@@ -13,10 +13,25 @@ BiocManager::install(c("here","learnr","palmerpenguins","tidyverse"))
 
 Then install the package using _e.g._ `pak`
 
- ```R
- if(!require("pak")){BiocManager::install("pak")}
- pak::pkg_install("UPSCb/Tutorial_01_data_science_intro")
- ```
+```R
+if(!require("pak")){BiocManager::install("pak")}
+pak::pkg_install("UPSCb/Tutorial_01_data_science_intro")
+```
+
+### Troubleshooting
+
+If you get an error message stating: `could not find tools necessary to compile a package`, then:
+
+* on **Windows**, you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/), select the right version for you R installation.
+
+* on **Mac OS**, make sure that xcode is installed. In the terminal, run `xcode-select --install`.
+
+If the above do not resolve the installation issue, then run this instead:
+
+```R
+if(!require("pak")){BiocManager::install("devtools")}
+devtools::install_github("UPSCb/Tutorial_01_data_science_intro")
+```
 
 ## Getting started
 
@@ -33,15 +48,9 @@ This is the first in a series of tutorials.
 
 To start the tutorial run:
 
-1. if you have installed the package
-  
-  ```{r tutorial}
-  learnr::run_tutorial("01_data_science_intro", package = "RnaSeqTutorial01")
-  ```
-
-2. if you have cloned the repository in a new project
-
-
+```{r tutorial}
+learnr::run_tutorial("01_data_science_intro", package = "RnaSeqTutorial01")
+```
 
 ## Accessing the code
 
