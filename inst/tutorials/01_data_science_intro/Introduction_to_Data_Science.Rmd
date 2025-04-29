@@ -362,9 +362,15 @@ penguins %>%
 
 ![Hypothesis Generation by [XKCD](https://www.explainxkcd.com/wiki/index.php/2569:_Hypothesis_Generation)](images/hypothesis_generation.png){width=80%}
 
-The information we got about the dataset mentions difference in foraging. Furthermore, in the EDA __Is that a bias__ section, we observed that Adelie penguins can co-habit with either Chinstrap or Gentoo, but the latter never do. Now that we know a bit more about the data properties, we could devise and test a number of hypotheses that could explain such a difference, for example:
+The information we got about the dataset mentions difference in foraging. Furthermore, in the EDA __Is that a bias__ section, we observed that Adelie penguins can co-habit with either Chinstrap or Gentoo, but the latter never do.
 
-1. Is there a correlation between body mass and flipper length? Does that differ by species? Is that affected by sex?
+Now that we know a bit more about the data properties, we could devise and test a number of hypotheses that could explain why this differential co-habitation is happening. Maybe it is related to the fact that some species compete for the same food? The paper from which the dataset was taken is all about foraging, and the penguins have different shapes in their beak.
+
+In general, we are looking for characteristics in which the Adelie penguins are different from the others (for example because a different body characteristic makes them able to catch different fishes or survive on different food sources). The Chinstrap or Gentoo, on the other hand, could share foraging habits (and therefore not be present on the same islands because they compete with each other), or eat foods that are present specifically on single islands.
+
+For example:
+
+1. Can a different body mass and flipper length be caused by a difference in foraging? Is there a correlation between body mass and flipper length? Does that differ by species? Is that affected by sex?
 ```{r bm-vs-fl, exercise=TRUE, exercise.eval=TRUE}
 
 ```
@@ -406,7 +412,7 @@ ggplot(penguins,aes(x=flipper_length_mm,
 
 There is indeed a clear correlation between both and a markedly sexual dimorphism.
 
-2. Is there a correlation between bill length and depth? Does that differ by species? Is that affected by sex?
+2. Can a different bill length and depth be caused by a difference in foraging? Is there a correlation between bill length and depth? Does that differ by species? Is that affected by sex?
 ```{r bl-vs-bd, exercise=TRUE, exercise.eval=TRUE}
 
 ```
